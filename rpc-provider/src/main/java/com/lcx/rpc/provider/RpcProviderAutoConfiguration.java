@@ -1,7 +1,5 @@
 package com.lcx.rpc.provider;
 
-
-
 import com.lcx.rpc.common.RpcProperties;
 import com.lcx.rpc.provider.registry.RegistryFactory;
 import com.lcx.rpc.provider.registry.RegistryService;
