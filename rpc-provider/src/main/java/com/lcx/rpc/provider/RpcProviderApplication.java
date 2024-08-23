@@ -1,5 +1,6 @@
 package com.lcx.rpc.provider;
 
+import com.lcx.rpc.protocol.MsgType;
 import com.lcx.rpc.serialization.SerializationFactory;
 import com.lcx.rpc.serialization.SerializationTypeEnum;
 import org.springframework.boot.SpringApplication;
@@ -20,7 +21,5 @@ import org.springframework.context.annotation.ComponentScans;
 public class RpcProviderApplication {
     public static void main(String[] args) {
         ApplicationContext context = SpringApplication.run(RpcProviderApplication.class, args);
-        SerializationFactory bean = context.getBean(SerializationFactory.class);
-        System.out.println(bean);
     }
 }
