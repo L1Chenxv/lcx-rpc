@@ -1,8 +1,8 @@
 package com.lcx.rpc.codec;
 
-import com.lcx.rpc.common.MiniRpcRequest;
-import com.lcx.rpc.common.MiniRpcResponse;
-import com.lcx.rpc.protocol.MiniRpcProtocol;
+import com.lcx.rpc.common.RpcRequest;
+import com.lcx.rpc.common.RpcResponse;
+import com.lcx.rpc.protocol.RpcProtocol;
 import com.lcx.rpc.protocol.MsgHeader;
 import com.lcx.rpc.protocol.MsgType;
 import com.lcx.rpc.protocol.ProtocolConstants;
@@ -20,7 +20,7 @@ import java.util.List;
  * @description： 解码
  * @version： v1.0
  */
-public class MiniRpcDecoder extends ByteToMessageDecoder {
+public class RpcDecoder extends ByteToMessageDecoder {
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
         if (in.readableBytes() < ProtocolConstants.HEADER_TOTAL_LEN) {
@@ -61,17 +61,17 @@ public class MiniRpcDecoder extends ByteToMessageDecoder {
         RpcSerialization rpcSerialization = SerializationFactory.getRpcSerialization(serializeType);
         switch (msgTypeEnum) {
             case REQUEST:
-                MiniRpcRequest request = rpcSerialization.deserialize(data, MiniRpcRequest.class);
+                RpcRequest request = rpcSerialization.deserialize(data, RpcRequest.class);
                 if (request != null) {
-                    MiniRpcProtocol<MiniRpcRequest> protocol = new MiniRpcProtocol<>();
+                    RpcProtocol<RpcRequest> protocol = new RpcProtocol<>();
                     protocol.setHeader(header);
                     protocol.setBody(request);
                     out.add(protocol);
                 }
             case RESPONSE:
-                MiniRpcResponse response = rpcSerialization.deserialize(data, MiniRpcResponse.class);
+                RpcResponse response = rpcSerialization.deserialize(data, RpcResponse.class);
                 if (response != null) {
-                    MiniRpcProtocol<MiniRpcResponse> protocol = new MiniRpcProtocol<>();
+                    RpcProtocol<RpcResponse> protocol = new RpcProtocol<>();
                     protocol.setHeader(header);
                     protocol.setBody(response);
                     out.add(protocol);

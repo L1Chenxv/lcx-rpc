@@ -1,7 +1,6 @@
 package com.lcx.rpc.codec;
 
-import com.lcx.rpc.common.MiniRpcRequest;
-import com.lcx.rpc.protocol.MiniRpcProtocol;
+import com.lcx.rpc.protocol.RpcProtocol;
 import com.lcx.rpc.protocol.MsgHeader;
 import com.lcx.rpc.serialization.RpcSerialization;
 import com.lcx.rpc.serialization.SerializationFactory;
@@ -15,10 +14,10 @@ import io.netty.handler.codec.MessageToByteEncoder;
  * @description： 编码
  * @version： v1.0
  */
-public class MiniRpcEncoder extends MessageToByteEncoder<MiniRpcProtocol<Object>> {
+public class RpcEncoder extends MessageToByteEncoder<RpcProtocol<Object>> {
 
     @Override
-    protected void encode(ChannelHandlerContext ctx, MiniRpcProtocol<Object> msg, ByteBuf byteBuf) throws Exception {
+    protected void encode(ChannelHandlerContext ctx, RpcProtocol<Object> msg, ByteBuf byteBuf) throws Exception {
         MsgHeader header = msg.getHeader();
         byteBuf.writeShort(header.getMagic());
         byteBuf.writeByte(header.getVersion());

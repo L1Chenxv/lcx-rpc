@@ -12,7 +12,7 @@ import java.io.Serializable;
  */
 
 @Data
-public class MiniRpcResponse implements Serializable {
+public class RpcResponse implements Serializable {
     private Object data;
 
     private String message;
