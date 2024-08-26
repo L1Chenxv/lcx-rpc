@@ -14,10 +14,17 @@ public class ZKConsistentHashLoadBalancer implements ServiceLoadBalancer<Service
 
     @Override
     public ServiceInstance<ServiceMeta> select(List<ServiceInstance<ServiceMeta>> servers, int hashCode) {
+        // TODO 哈希环持久化
         TreeMap<Integer, ServiceInstance<ServiceMeta>> ring = makeConsistentHashRing(servers);
         return allocateNode(ring, hashCode);
     }
 
+    /**
+     * 分配节点
+     * @param ring
+     * @param hashCode
+     * @return
+     */
     private ServiceInstance<ServiceMeta> allocateNode(TreeMap<Integer, ServiceInstance<ServiceMeta>> ring, int hashCode) {
         Map.Entry<Integer, ServiceInstance<ServiceMeta>> entry = ring.ceilingEntry(hashCode);
         if (entry == null) {
@@ -26,6 +33,11 @@ public class ZKConsistentHashLoadBalancer implements ServiceLoadBalancer<Service
         return entry.getValue();
     }
 
+    /**
+     * 构造哈希环
+     * @param servers
+     * @return
+     */
     private TreeMap<Integer, ServiceInstance<ServiceMeta>> makeConsistentHashRing(List<ServiceInstance<ServiceMeta>> servers) {
         TreeMap<Integer, ServiceInstance<ServiceMeta>> ring = new TreeMap<>();
         for (ServiceInstance<ServiceMeta> instance : servers) {

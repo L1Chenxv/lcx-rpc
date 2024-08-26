@@ -56,6 +56,7 @@ public class ZookeeperRegistryService implements RegistryService {
                 .port(serviceMeta.getServicePort())
                 .payload(serviceMeta)
                 .build();
+        // TODO 哈希环持久化
         serviceDiscovery.unregisterService(serviceInstance);
     }
 

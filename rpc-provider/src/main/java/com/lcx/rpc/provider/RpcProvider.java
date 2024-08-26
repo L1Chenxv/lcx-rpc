@@ -51,7 +51,8 @@ public class RpcProvider implements InitializingBean, BeanPostProcessor {
                 serviceMeta.setServiceName(serviceName);
                 serviceMeta.setServiceVersion(serviceVersion);
 
-                //TODO 发布服务元数据至注册中心
+                //发布服务元数据至注册中心
+                serviceRegistry.register(serviceMeta);
                 rpcServiceMap.put(RpcServiceHelper.buildServiceKey(serviceName, serviceVersion), serviceMeta);
             } catch (Exception e) {
                 log.error("failed to register service {}#{}", serviceName, serviceVersion, e);
