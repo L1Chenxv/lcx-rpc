@@ -1,7 +1,7 @@
-package com.mini.rpc.consumer;
+package com.lcx.rpc.consumer;
 
 import com.lcx.rpc.common.RpcConstants;
-import com.mini.rpc.consumer.annotation.RpcReference;
+import com.lcx.rpc.consumer.annotation.RpcReference;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanClassLoaderAware;

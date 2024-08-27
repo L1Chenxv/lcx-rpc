@@ -20,6 +20,6 @@ import org.springframework.context.annotation.ComponentScans;
 @ComponentScan(basePackages = {"com.lcx.rpc"})
 public class RpcProviderApplication {
     public static void main(String[] args) {
-        ApplicationContext context = SpringApplication.run(RpcProviderApplication.class, args);
+        SpringApplication.run(RpcProviderApplication.class, args);
     }
 }

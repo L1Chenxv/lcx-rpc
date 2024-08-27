@@ -1,4 +1,4 @@
-package com.mini.rpc.consumer;
+package com.lcx.rpc.consumer;
 
 import com.lcx.rpc.codec.RpcDecoder;
 import com.lcx.rpc.codec.RpcEncoder;

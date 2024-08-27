@@ -2,6 +2,7 @@ package com.lcx.rpc.handler;
 
 import com.lcx.rpc.common.RpcRequest;
 import com.lcx.rpc.common.RpcResponse;
+import com.lcx.rpc.common.RpcServiceHelper;
 import com.lcx.rpc.protocol.RpcProtocol;
 import com.lcx.rpc.protocol.MsgHeader;
 import com.lcx.rpc.protocol.MsgStatus;
@@ -9,7 +10,9 @@ import com.lcx.rpc.protocol.MsgType;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cglib.reflect.FastClass;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 /**
@@ -51,8 +54,20 @@ public class RpcRequestHandler extends SimpleChannelInboundHandler<RpcProtocol<R
         });
     }
 
-    private Object handle(RpcRequest request) {
-        // TODO
-        return null;
+    private Object handle(RpcRequest request) throws InvocationTargetException {
+        String serviceKey = RpcServiceHelper.buildServiceKey(request.getClassName(), request.getServiceVersion());
+        Object serviceBean = rpcServiceMap.get(serviceKey);
+        if (serviceBean == null) {
+            throw new RuntimeException(String.format("service not exist: %s:%s", request.getClassName(), request.getMethodName()));
+        }
+        Class<?> serviceClass = serviceBean.getClass();
+        String methodName = request.getMethodName();
+        Class<?>[] parameterTypes = request.getParameterTypes();
+        Object[] params = request.getParams();
+
+        FastClass fastClass = FastClass.create(serviceClass);
+        int methodIndex = fastClass.getIndex(methodName, parameterTypes);
+
+        return fastClass.invoke(methodIndex, serviceBean, params);
     }
 }

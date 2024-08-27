@@ -1,7 +1,7 @@
-package com.mini.rpc.consumer.controller;
+package com.lcx.rpc.consumer.controller;
 
+import com.lcx.rpc.consumer.annotation.RpcReference;
 import com.lcx.rpc.provider.facade.HelloFacade;
-import com.mini.rpc.consumer.annotation.RpcReference;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HelloController {
 
+    @SuppressWarnings({"SpringJavaAutowiredFieldsWarningInspection", "SpringJavaInjectionPointsAutowiringInspection"})
     @RpcReference(serviceVersion = "1.0.0", timeout = 3000)
     private HelloFacade helloFacade;
     @RequestMapping(value = "/hello", method = RequestMethod.GET)

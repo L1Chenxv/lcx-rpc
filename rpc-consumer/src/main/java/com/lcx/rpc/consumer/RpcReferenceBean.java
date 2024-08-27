@@ -1,4 +1,4 @@
-package com.mini.rpc.consumer;
+package com.lcx.rpc.consumer;
 
 import com.lcx.rpc.provider.registry.RegistryFactory;
 import com.lcx.rpc.provider.registry.RegistryService;
@@ -42,7 +42,7 @@ public class RpcReferenceBean implements FactoryBean<Object> {
      * @throws Exception
      */
     public void init() throws Exception {
-        // TODO 生成动态代理对象并赋值给 object
+        // 生成动态代理对象并赋值给 object
         RegistryService registryService = RegistryFactory.getInstance(this.registryAddr, RegistryType.ZOOKEEPER);
         this.object = Proxy.newProxyInstance(
                 interfaceClass.getClassLoader(),

@@ -1,4 +1,4 @@
-package com.mini.rpc.consumer.annotation;
+package com.lcx.rpc.consumer.annotation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 

@@ -1,4 +1,4 @@
-package com.mini.rpc.consumer;
+package com.lcx.rpc.consumer;
 
 import com.lcx.rpc.common.RpcFuture;
 import com.lcx.rpc.common.RpcRequest;
@@ -8,7 +8,6 @@ import com.lcx.rpc.protocol.*;
 import com.lcx.rpc.provider.registry.RegistryService;
 import io.netty.channel.DefaultEventLoop;
 import io.netty.util.concurrent.DefaultPromise;
-import org.jboss.netty.handler.codec.socks.SocksMessage;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
