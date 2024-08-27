@@ -48,6 +48,7 @@ public class ZookeeperRegistryService implements RegistryService {
                 .port(serviceMeta.getServicePort())
                 .payload(serviceMeta)
                 .build();
+        loadBalancer.removeRing(serviceMeta.getServiceName());
         serviceDiscovery.registerService(serviceInstance);
     }
 
