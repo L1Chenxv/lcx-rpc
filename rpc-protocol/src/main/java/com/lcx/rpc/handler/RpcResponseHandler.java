@@ -7,6 +7,8 @@ import com.lcx.rpc.protocol.RpcProtocol;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
+import java.util.Objects;
+
 /**
  * @author： lichenxu
  * @date： 2024/8/2314:58
@@ -19,6 +21,8 @@ public class RpcResponseHandler extends SimpleChannelInboundHandler<RpcProtocol<
     protected void channelRead0(ChannelHandlerContext ctx, RpcProtocol<RpcResponse> msg) throws Exception {
         long requestId = msg.getHeader().getRequestId();
         RpcFuture<RpcResponse> future = RpcRequestHolder.REQUEST_MAP.remove(requestId);
-        future.getPromise().setSuccess(msg.getBody());
+        if (Objects.nonNull(future)) {
+            future.getPromise().setSuccess(msg.getBody());
+        }
     }
 }

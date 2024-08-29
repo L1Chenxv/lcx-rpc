@@ -5,6 +5,8 @@ import com.lcx.rpc.codec.RpcEncoder;
 import com.lcx.rpc.common.RpcRequest;
 import com.lcx.rpc.common.RpcServiceHelper;
 import com.lcx.rpc.common.ServiceMeta;
+import com.lcx.rpc.handler.RpcHeartBeatHandler;
+import com.lcx.rpc.handler.RpcIdleStateHandler;
 import com.lcx.rpc.handler.RpcResponseHandler;
 import com.lcx.rpc.protocol.RpcProtocol;
 import com.lcx.rpc.provider.registry.RegistryService;
@@ -38,8 +40,12 @@ public class RpcConsumer {
                     @Override
                     protected void initChannel(SocketChannel socketChannel) throws Exception {
                         socketChannel.pipeline()
+                                // out
                                 .addLast(new RpcEncoder())
+                                // in
                                 .addLast(new RpcDecoder())
+                                .addLast(new RpcIdleStateHandler()) // 空闲检测
+                                .addLast(new RpcHeartBeatHandler()) // 健康检测
                                 .addLast(new RpcResponseHandler());
                     }
                 });

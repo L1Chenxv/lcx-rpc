@@ -34,17 +34,6 @@ public class RpcInvokerProxy implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        // 构造 RPC 协议对象
-        RpcProtocol<RpcRequest> protocol = new RpcProtocol<>();
-        // 构造 RPC 协议头
-        MsgHeader header = new MsgHeader();
-        long requestId = RpcRequestHolder.REQUEST_ID_GEN.incrementAndGet();
-        header.setMagic(ProtocolConstants.MAGIC);
-        header.setVersion(ProtocolConstants.VERSION);
-        header.setRequestId(requestId);
-        header.setMsgType((byte) MsgType.REQUEST.getType());
-        header.setStatus((byte) MsgStatus.FAIL.getCode());
-        protocol.setHeader(header);
         // 构造 RPC 协议体
         RpcRequest request = new RpcRequest();
         request.setServiceVersion(this.serviceVersion);
@@ -52,8 +41,9 @@ public class RpcInvokerProxy implements InvocationHandler {
         request.setMethodName(method.getName());
         request.setParams(args);
         request.setParameterTypes(method.getParameterTypes());
-        protocol.setBody(request);
 
+        RpcProtocol<RpcRequest> protocol = RpcProtocol.buildProtocol(MsgType.REQUEST, request);
+        long requestId = protocol.getHeader().getRequestId();
         RpcConsumer rpcConsumer = new RpcConsumer();
         RpcFuture<RpcResponse> future = new RpcFuture<>(new DefaultPromise<>(new DefaultEventLoop()), timeout);
         RpcRequestHolder.REQUEST_MAP.put(requestId, future);

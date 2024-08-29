@@ -4,6 +4,7 @@ import com.lcx.rpc.codec.RpcDecoder;
 import com.lcx.rpc.codec.RpcEncoder;
 import com.lcx.rpc.common.RpcServiceHelper;
 import com.lcx.rpc.common.ServiceMeta;
+import com.lcx.rpc.handler.RpcIdleStateHandler;
 import com.lcx.rpc.handler.RpcRequestHandler;
 import com.lcx.rpc.provider.annotation.RpcService;
 import com.lcx.rpc.provider.registry.RegistryService;
@@ -69,8 +70,11 @@ public class RpcProvider implements InitializingBean, BeanPostProcessor {
                         @Override
                         protected void initChannel(SocketChannel socketChannel) throws Exception {
                             socketChannel.pipeline()
+                                    //out
                                     .addLast(new RpcEncoder())
+                                    // in
                                     .addLast(new RpcDecoder())
+                                    .addLast(new RpcIdleStateHandler())
                                     .addLast(new RpcRequestHandler(rpcServiceMap));
                         }
                     })

@@ -1,5 +1,6 @@
 package com.lcx.rpc.codec;
 
+import com.lcx.rpc.common.HeartBeatData;
 import com.lcx.rpc.common.RpcRequest;
 import com.lcx.rpc.common.RpcResponse;
 import com.lcx.rpc.protocol.RpcProtocol;
@@ -68,6 +69,7 @@ public class RpcDecoder extends ByteToMessageDecoder {
                     protocol.setBody(request);
                     out.add(protocol);
                 }
+                break;
             case RESPONSE:
                 RpcResponse response = rpcSerialization.deserialize(data, RpcResponse.class);
                 if (response != null) {
@@ -76,8 +78,15 @@ public class RpcDecoder extends ByteToMessageDecoder {
                     protocol.setBody(response);
                     out.add(protocol);
                 }
+                break;
             case HEARTBEAT:
-                // TODO
+                HeartBeatData heartbeat = rpcSerialization.deserialize(data, HeartBeatData.class);
+                if (heartbeat != null) {
+                    RpcProtocol<HeartBeatData> protocol = new RpcProtocol<>();
+                    protocol.setHeader(header);
+                    protocol.setBody(heartbeat);
+                    out.add(protocol);
+                }
                 break;
             default:
                 throw new IllegalArgumentException("message type is is illegal," + msgTypeEnum);
