@@ -8,5 +8,5 @@ public class RpcRequestHolder {
 
     public final static AtomicLong REQUEST_ID_GEN = new AtomicLong(0);
 
-    public static final Map<Long, RpcFuture<RpcResponse>> REQUEST_MAP = new ConcurrentHashMap<>();
+    public static final Map<Long, RpcPromise<RpcResponse>> REQUEST_MAP = new ConcurrentHashMap<>();
 }

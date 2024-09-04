@@ -1,6 +1,6 @@
 package com.lcx.rpc.consumer;
 
-import com.lcx.rpc.common.RpcFuture;
+import com.lcx.rpc.common.RpcPromise;
 import com.lcx.rpc.common.RpcRequest;
 import com.lcx.rpc.common.RpcRequestHolder;
 import com.lcx.rpc.common.RpcResponse;
@@ -45,7 +45,7 @@ public class RpcInvokerProxy implements InvocationHandler {
         RpcProtocol<RpcRequest> protocol = RpcProtocol.buildProtocol(MsgType.REQUEST, request);
         long requestId = protocol.getHeader().getRequestId();
         RpcConsumer rpcConsumer = new RpcConsumer();
-        RpcFuture<RpcResponse> future = new RpcFuture<>(new DefaultPromise<>(new DefaultEventLoop()), timeout);
+        RpcPromise<RpcResponse> future = new RpcPromise<>(new DefaultPromise<>(new DefaultEventLoop()), timeout);
         RpcRequestHolder.REQUEST_MAP.put(requestId, future);
         // 发起 RPC 远程调用
         rpcConsumer.sendRequest(protocol, registryService);

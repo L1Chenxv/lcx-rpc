@@ -1,6 +1,6 @@
 package com.lcx.rpc.handler;
 
-import com.lcx.rpc.common.RpcFuture;
+import com.lcx.rpc.common.RpcPromise;
 import com.lcx.rpc.common.RpcRequestHolder;
 import com.lcx.rpc.common.RpcResponse;
 import com.lcx.rpc.protocol.RpcProtocol;
@@ -20,7 +20,7 @@ public class RpcResponseHandler extends SimpleChannelInboundHandler<RpcProtocol<
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, RpcProtocol<RpcResponse> msg) throws Exception {
         long requestId = msg.getHeader().getRequestId();
-        RpcFuture<RpcResponse> future = RpcRequestHolder.REQUEST_MAP.remove(requestId);
+        RpcPromise<RpcResponse> future = RpcRequestHolder.REQUEST_MAP.remove(requestId);
         if (Objects.nonNull(future)) {
             future.getPromise().setSuccess(msg.getBody());
         }
